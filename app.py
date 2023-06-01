@@ -64,7 +64,7 @@ def callback():
 @handler.add(MessageEvent, message=TextMessage)
 def message_text(event):
     if '重複' in event.message.text:
-        reply_mess = event.message.text
+        reply_mess = event.message.text.replace('重複','')
     elif 'FATZ' in str.upper(event.message.text):
         reply_mess = '喔不!!'
     elif '噗鼠' in event.message.text:
