@@ -71,12 +71,9 @@ def message_text(event):
         reply_mess = 'MD'
     elif 'chatim 掰' in event.message.text:
         try:
-            if group_id: 
-                line_bot_api.leave_group(group_id)
-            elif room_id:
-                line_bot_api.leave_room(room_id)
-        except LineBotApiError as e:
-            print(e)
+            line_bot_api.leave_group(group_id)
+        except:
+            line_bot_api.leave_room(room_id)
     else:
         return
         
