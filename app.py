@@ -70,7 +70,7 @@ def message_text(event):
     elif '噗鼠' in event.message.text:
         reply_mess = 'MD'
     else:
-        None
+        reply_mess = None
         
     line_bot_api.reply_message(
         event.reply_token,
