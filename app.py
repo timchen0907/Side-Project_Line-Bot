@@ -63,9 +63,18 @@ def callback():
 
 @handler.add(MessageEvent, message=TextMessage)
 def message_text(event):
+   if '重複' in event.message.text:
+        reply_mess = event.message_text
+    elif 'FATZ' in str.upper(event.message_text):
+        reply_mess = '喔不!!'
+    elif '噗鼠' in event.message_text:
+        reply_mess = 'MD'
+    else:
+        None
+        
     line_bot_api.reply_message(
         event.reply_token,
-        TextSendMessage(text=event.message.text)
+        TextSendMessage(text=reply_mess)
     )
 
 
