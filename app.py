@@ -69,8 +69,16 @@ def message_text(event):
         reply_mess = '喔不!!'
     elif '噗鼠' in event.message.text:
         reply_mess = 'MD'
+    elif 'chatim 掰' in event.message.text:
+        try:
+            if group_id: 
+                line_bot_api.leave_group(group_id)
+            elif room_id
+                line_bot_api.leave_room(room_id)
+        except LineBotApiError as e:
+            print(e)
     else:
-        reply_mess = None
+        return
         
     line_bot_api.reply_message(
         event.reply_token,
