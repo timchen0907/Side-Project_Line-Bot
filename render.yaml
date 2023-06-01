@@ -2,7 +2,7 @@ services:
 - type: web
   name: line-bot-python
   env: python
-  repo: https://github.com/timchen0907/private.git
+  repo: https://github.com/timchen0907/line-bot.git
   buildCommand: cd examples/flask-echo;pip install gunicorn -r requirements.txt
   startCommand: cd examples/flask-echo;gunicorn app:app
   plan: free
