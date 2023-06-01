@@ -70,13 +70,13 @@ def message_text(event):
     elif '噗鼠' in event.message.text:
         reply_mess = 'MD'
     elif 'chatim掰' in event.message.text:
-        try:
-            if event.source.group_id:
-                line_bot_api.leave_group(event.reply_token)
-            elif event.source.room_id:
-                line_bot_api.leave_room(event.reply_token)
-        except LineBotApiError as e:
-            print(e)
+        if isinstance(event.source, SourceGroup):
+            line_bot_api.leave_group(event.source.group_id)
+        elif isinstance(event.source, SourceRoom):
+            line_bot_api.leave_room(event.source.room_id)
+        else:
+            line_bot_api.reply_message(
+                event.reply_token, TextSendMessage(text='抱歉，你只能繼續跟我1v1'))
     else:
         return
         
