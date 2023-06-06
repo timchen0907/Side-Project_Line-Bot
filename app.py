@@ -109,7 +109,8 @@ def message_text(event):
                 event.reply_token, TextSendMessage(text='抱歉，你只能繼續跟我1v1'))
     elif 'meme' in event.message.text:
         try: 
-            line_bot_api.reply_message(event.reply_token, ImageSendMessage(meme_programmer(), meme_programmer()))
+            image_link = meme_programmer()
+            line_bot_api.reply_message(event.reply_token, ImageSendMessage(image_link, image_link))
         except:
             line_bot_api.reply_message(event.reply_token, TextSendMessage(text= 'Sorry~故障囉！'))
     else:
