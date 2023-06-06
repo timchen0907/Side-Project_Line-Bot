@@ -109,8 +109,8 @@ def message_text(event):
                 event.reply_token, TextSendMessage(text='抱歉，你只能繼續跟我1v1'))
     elif 'meme' in event.message.text:
         try: 
-            message = ImageSendMessage(orginal_content_url = meme_programmer(),
-                                       preview_image_url= meme_programmer())
+            message = ImageSendMessage(orginal_content_url = 'https://i.imgur.com/a9GmTk0.jpeg',
+                                       preview_image_url= 'https://i.imgur.com/a9GmTk0.jpeg')
             line_bot_api.reply_message(event.reply_token, message)
         except:
             line_bot_api.reply_message(event.reply_token,
