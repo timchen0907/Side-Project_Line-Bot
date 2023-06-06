@@ -82,6 +82,8 @@ def meme_reddit():
     
     return api_return['thumbnail']
 
+
+@handler.add(MessageEvent, message=TextMessage)
 def line_send_image(func):
     image_link = func
     try: 
