@@ -62,15 +62,33 @@ def callback():
     return 'OK'
 
 def meme_programmer():
-    # 100 / day
-    url = "https://programming-memes-images.p.rapidapi.com/v1/memes"
+   url = "https://programming-memes-images.p.rapidapi.com/v1/memes"
+    
     headers = {
     	"X-RapidAPI-Key": "2eb4ae18demsha492b3b31ae7229p11a89ajsn374987e29bb9",
     	"X-RapidAPI-Host": "programming-memes-images.p.rapidapi.com"
     }
+    
     response = requests.get(url, headers=headers)
+
     api_return = response.json()
-    return api_return[0]['image']
+    
+    # res_img = requests.get(api_return[0]['image'])
+    # image = res_img.content
+    # from PIL import Image
+    # import io
+    # stream = io.BytesIO(image)    
+    # image2 = Image.open(stream)
+    client_id = '911cca3455d90f1'
+    client_secret = '6abd7b8943b34f18ba0500836812171a0a687725'
+    access_token = '2e57b37c2f63e005904008e26fa3374a4af92ac3'
+    refresh_token = '10808e6a470f8b172a8188d151d11c6a343d2242'
+    
+    client = imgurpython.ImgurClient(client_id, client_secret, access_token, refresh_token)
+    
+    response = client.upload_from_url(api_return[0]['image'], config = None, anon = True)
+    
+    return  response['link']
 
 
 @handler.add(MessageEvent, message=TextMessage)
