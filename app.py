@@ -24,7 +24,7 @@ from linebot.exceptions import (
     InvalidSignatureError, LineBotApiError
 )
 from linebot.models import (
-    MessageEvent, TextMessage, TextSendMessage, SourceGroup, SourceRoom
+    MessageEvent, TextMessage, TextSendMessage, SourceGroup, SourceRoom, ImageSendMessage
 )
 
 app = Flask(__name__)
@@ -60,6 +60,17 @@ def callback():
 
     return 'OK'
 
+def meme_programmer():
+    # 100 / day
+    url = "https://programming-memes-images.p.rapidapi.com/v1/memes"
+    headers = {
+    	"X-RapidAPI-Key": "2eb4ae18demsha492b3b31ae7229p11a89ajsn374987e29bb9",
+    	"X-RapidAPI-Host": "programming-memes-images.p.rapidapi.com"
+    }
+    response = requests.get(url, headers=headers
+    api_return = response.json()
+    return api_return[0]['image']
+
 
 @handler.add(MessageEvent, message=TextMessage)
 reply_mess = ''
@@ -78,6 +89,13 @@ def message_text(event):
         else:
             line_bot_api.reply_message(
                 event.reply_token, TextSendMessage(text='抱歉，你只能繼續跟我1v1'))
+    elif 'meme' in event.message_text:
+        try: 
+            message = ImageSendMessage(orginal_content_url = meme_programmer(), preview_image_url= meme_programmer())
+            line_bot_api.reply_message(event.reply_token, message)
+        except:
+            line_bot_api.reply_message(event.reply_token,
+            TextSendMessage(text= 'Sorry~故障囉！'))
     else:
         return
         
