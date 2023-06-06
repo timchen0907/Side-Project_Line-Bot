@@ -62,13 +62,12 @@ def callback():
     return 'OK'
 
 def meme_programmer():
-   url = "https://programming-memes-images.p.rapidapi.com/v1/memes"
+    url = "https://programming-memes-images.p.rapidapi.com/v1/memes"
     
     headers = {
-    	"X-RapidAPI-Key": "2eb4ae18demsha492b3b31ae7229p11a89ajsn374987e29bb9",
-    	"X-RapidAPI-Host": "programming-memes-images.p.rapidapi.com"
+        "X-RapidAPI-Key": "2eb4ae18demsha492b3b31ae7229p11a89ajsn374987e29bb9",
+        "X-RapidAPI-Host": "programming-memes-images.p.rapidapi.com"
     }
-    
     response = requests.get(url, headers=headers)
 
     api_return = response.json()
