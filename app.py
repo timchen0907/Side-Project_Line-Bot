@@ -133,6 +133,7 @@ def message_text(event):
             client = imgurpython.ImgurClient(client_id, client_secret, access_token, refresh_token)
 
             response = client.upload_from_url(api_return[0]['image'], config = None, anon = True)
+            print(response['link'])
             line_bot_api.reply_message(event.reply_token, ImageSendMessage(original_content_url=response['link'], preview_image_url=response['link']))
         except:
             line_bot_api.reply_message(event.reply_token, TextSendMessage(text= 'Sorry~故障囉！'))
