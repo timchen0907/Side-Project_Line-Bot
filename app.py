@@ -84,7 +84,7 @@ def meme_reddit():
 
 
 @handler.add(MessageEvent, message=TextMessage)
-def line_send_image(func):
+def line_send_image(func, event):
     image_link = func
     try: 
         line_bot_api.reply_message(event.reply_token, ImageSendMessage(original_content_url=image_link, preview_image_url=image_link))
