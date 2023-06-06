@@ -73,8 +73,8 @@ def meme_programmer():
 
 
 @handler.add(MessageEvent, message=TextMessage)
-reply_mess = ''
 def message_text(event):
+    reply_mess = ''
     if '重複' in event.message.text:
         reply_mess = event.message.text.replace('重複','')
     elif 'FATZ' in str.upper(event.message.text):
