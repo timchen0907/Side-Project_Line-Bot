@@ -68,8 +68,7 @@ def meme_programmer():
     	"X-RapidAPI-Host": "programming-memes-images.p.rapidapi.com"
     }
     response = requests.get(url, headers=headers
-    api_return = response.json()
-    return api_return[0]['image']
+    return response.json()[0]['image']
 
 
 @handler.add(MessageEvent, message=TextMessage)
