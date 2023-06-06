@@ -109,10 +109,10 @@ def message_text(event):
             line_bot_api.reply_message(
                 event.reply_token, TextSendMessage(text='抱歉，你只能繼續跟我1v1'))
     elif 'programmer' in event.message.text:
-        line_send_image(meme_programmer())
+        line_send_image(meme_programmer(), event)
             
     elif 'reddit' in event.message.text:
-        line_send_image(meme_reddit())
+        line_send_image(meme_reddit(), event)
         
     else:
         return
