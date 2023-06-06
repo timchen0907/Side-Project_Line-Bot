@@ -16,7 +16,6 @@ import os
 import sys
 import requests
 from argparse import ArgumentParser
-
 from flask import Flask, request, abort
 from linebot import (
     LineBotApi, WebhookHandler
@@ -27,6 +26,7 @@ from linebot.exceptions import (
 from linebot.models import (
     MessageEvent, TextMessage, TextSendMessage, SourceGroup, SourceRoom, ImageSendMessage
 )
+from imgurpython import ImgurClient
 
 app = Flask(__name__)
 
