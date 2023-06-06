@@ -83,7 +83,7 @@ def meme_programmer():
     access_token = '2e57b37c2f63e005904008e26fa3374a4af92ac3'
     refresh_token = '10808e6a470f8b172a8188d151d11c6a343d2242'
     
-    client = imgurpython.ImgurClient(client_id, client_secret, access_token, refresh_token)
+    client = ImgurClient(client_id, client_secret, access_token, refresh_token)
     
     response = client.upload_from_url(api_return[0]['image'], config = None, anon = True)
     
