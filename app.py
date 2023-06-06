@@ -92,7 +92,8 @@ def message_text(event):
                 event.reply_token, TextSendMessage(text='抱歉，你只能繼續跟我1v1'))
     elif 'meme' in event.message.text:
         try: 
-            message = ImageSendMessage(orginal_content_url = meme_programmer(), preview_image_url= meme_programmer())
+            message = ImageSendMessage(orginal_content_url = 'https://sgp1.vultrobjects.com/kaushal-meme-api/meme_api_prod/memes/1169.jpg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=31MV23N3G46Q2UG2RT1V%2F20230606%2Fsgp1%2Fs3%2Faws4_request&X-Amz-Date=20230606T033708Z&X-Amz-Expires=3600&X-Amz-SignedHeaders=host&X-Amz-Signature=911bee8f43c452607fb9092b07cc1d45d1d3ef72d7babcfd41475aaf2a6f6de3',
+                                       preview_image_url= 'https://sgp1.vultrobjects.com/kaushal-meme-api/meme_api_prod/memes/1169.jpg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=31MV23N3G46Q2UG2RT1V%2F20230606%2Fsgp1%2Fs3%2Faws4_request&X-Amz-Date=20230606T033708Z&X-Amz-Expires=3600&X-Amz-SignedHeaders=host&X-Amz-Signature=911bee8f43c452607fb9092b07cc1d45d1d3ef72d7babcfd41475aaf2a6f6de3')
             line_bot_api.reply_message(event.reply_token, message)
         except:
             line_bot_api.reply_message(event.reply_token,
