@@ -1,36 +1,16 @@
 # -*- coding: utf-8 -*-
-
-#  Licensed under the Apache License, Version 2.0 (the "License"); you may
-#  not use this file except in compliance with the License. You may obtain
-#  a copy of the License at
-#
-#       https://www.apache.org/licenses/LICENSE-2.0
-#
-#  Unless required by applicable law or agreed to in writing, software
-#  distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
-#  WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
-#  License for the specific language governing permissions and limitations
-#  under the License.
-
 import os
 import sys
 import requests
 from argparse import ArgumentParser
-from flask import Flask, request, abort
-from linebot import (
-    LineBotApi, WebhookHandler
-)
-from linebot.exceptions import (
-    InvalidSignatureError, LineBotApiError
-)
-from linebot.models import (
-    MessageEvent, TextMessage, TextSendMessage, SourceGroup, SourceRoom, ImageSendMessage
-)
 from imgurpython import ImgurClient
+from flask import Flask, request, abort
+from linebot import LineBotApi, WebhookHandler
+from linebot.exceptions import InvalidSignatureError, LineBotApiError
+from linebot.models import MessageEvent, TextMessage, TextSendMessage, SourceGroup, SourceRoom, ImageSendMessage
 
 app = Flask(__name__)
 
-# get channel_secret and channel_access_token from your environment variable
 channel_secret = os.getenv('LINE_CHANNEL_SECRET', None)
 channel_access_token = os.getenv('LINE_CHANNEL_ACCESS_TOKEN', None)
 if channel_secret is None:
@@ -63,21 +43,20 @@ def callback():
 
 def meme_programmer():
     url = "https://programming-memes-images.p.rapidapi.com/v1/memes"
-    
     headers = {
         "X-RapidAPI-Key": "2eb4ae18demsha492b3b31ae7229p11a89ajsn374987e29bb9",
         "X-RapidAPI-Host": "programming-memes-images.p.rapidapi.com"
     }
     response = requests.get(url, headers=headers)
-
     api_return = response.json()
-    
+   
     # res_img = requests.get(api_return[0]['image'])
     # image = res_img.content
     # from PIL import Image
     # import io
     # stream = io.BytesIO(image)    
     # image2 = Image.open(stream)
+    
     client_id = '911cca3455d90f1'
     client_secret = '6abd7b8943b34f18ba0500836812171a0a687725'
     access_token = '2e57b37c2f63e005904008e26fa3374a4af92ac3'
@@ -91,20 +70,24 @@ def meme_programmer():
 
 def meme_reddit():
     url = "https://random-stuff-api.p.rapidapi.com/reddit/RandomMeme"
-
     querystring = {"searchType":"hot"}
-
     headers = {
     	"Authorization": "chrnMsqPx8Ww",
     	"X-RapidAPI-Key": "2eb4ae18demsha492b3b31ae7229p11a89ajsn374987e29bb9",
     	"X-RapidAPI-Host": "random-stuff-api.p.rapidapi.com"
     }
-    
     response = requests.get(url, headers=headers, params=querystring)
 
     api_return = response.json()
     
     return api_return['thumbnail']
+
+def line_send_image(func):
+    image_link = func
+    try: 
+        line_bot_api.reply_message(event.reply_token, ImageSendMessage(original_content_url=image_link, preview_image_url=image_link))
+    except:
+        line_bot_api.reply_message(event.reply_token, TextSendMessage(text= image_link + 'Sorry~故障囉！'))
 
 @handler.add(MessageEvent, message=TextMessage)
 def message_text(event):
@@ -123,19 +106,12 @@ def message_text(event):
         else:
             line_bot_api.reply_message(
                 event.reply_token, TextSendMessage(text='抱歉，你只能繼續跟我1v1'))
-    elif 'meme' in event.message.text:
-        image_link = meme_programmer()
-        try: 
-            line_bot_api.reply_message(event.reply_token, ImageSendMessage(original_content_url=image_link, preview_image_url=image_link))
-        except:
-            line_bot_api.reply_message(event.reply_token, TextSendMessage(text= image_link + 'Sorry~故障囉！'))
+    elif 'programmer' in event.message.text:
+        line_send_image(meme_programmer())
             
-    elif 'meme reddit' in event.message.text:
-        image_link = meme_reddit()
-        try: 
-            line_bot_api.reply_message(event.reply_token, ImageSendMessage(original_content_url=image_link, preview_image_url=image_link))
-        except:
-            line_bot_api.reply_message(event.reply_token, TextSendMessage(text= image_link + 'Sorry~故障囉！'))
+    elif 'reddit' in event.message.text:
+        line_send_image(meme_reddit())
+        
     else:
         return
         
