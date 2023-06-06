@@ -89,7 +89,7 @@ def message_text(event):
         else:
             line_bot_api.reply_message(
                 event.reply_token, TextSendMessage(text='抱歉，你只能繼續跟我1v1'))
-    elif 'meme' in event.message_text:
+    elif 'meme' in event.message.text:
         try: 
             message = ImageSendMessage(orginal_content_url = meme_programmer(), preview_image_url= meme_programmer())
             line_bot_api.reply_message(event.reply_token, message)
