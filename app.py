@@ -14,6 +14,7 @@
 
 import os
 import sys
+import requests
 from argparse import ArgumentParser
 
 from flask import Flask, request, abort
