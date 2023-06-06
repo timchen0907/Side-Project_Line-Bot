@@ -89,16 +89,32 @@ def meme_programmer():
     
     return  response['link']
 
+def meme_reddit():
+    url = "https://random-stuff-api.p.rapidapi.com/reddit/RandomMeme"
+
+    querystring = {"searchType":"hot"}
+
+    headers = {
+    	"Authorization": "chrnMsqPx8Ww",
+    	"X-RapidAPI-Key": "2eb4ae18demsha492b3b31ae7229p11a89ajsn374987e29bb9",
+    	"X-RapidAPI-Host": "random-stuff-api.p.rapidapi.com"
+    }
+    
+    response = requests.get(url, headers=headers, params=querystring)
+
+    api_return = response.json()
+    
+    return api_return['thumbnail']
 
 @handler.add(MessageEvent, message=TextMessage)
 def message_text(event):
     reply_mess = ''
     if '重複' in event.message.text:
         reply_mess = event.message.text.replace('重複','')
-    elif 'FATZ' in str.upper(event.message.text):
-        reply_mess = '喔不!!'
-    elif '噗鼠' in event.message.text:
-        reply_mess = 'MD'
+#     elif 'FATZ' in str.upper(event.message.text):
+#         reply_mess = '喔不!!'
+#     elif '噗鼠' in event.message.text:
+#         reply_mess = 'MD'
     elif 'chatim掰' in event.message.text:
         if isinstance(event.source, SourceGroup):
             line_bot_api.leave_group(event.source.group_id)
@@ -109,6 +125,13 @@ def message_text(event):
                 event.reply_token, TextSendMessage(text='抱歉，你只能繼續跟我1v1'))
     elif 'meme' in event.message.text:
         image_link = meme_programmer()
+        try: 
+            line_bot_api.reply_message(event.reply_token, ImageSendMessage(original_content_url=image_link, preview_image_url=image_link))
+        except:
+            line_bot_api.reply_message(event.reply_token, TextSendMessage(text= image_link + 'Sorry~故障囉！'))
+            
+    elif 'meme reddit' in event.message.text:
+        image_link = meme_reddit()
         try: 
             line_bot_api.reply_message(event.reply_token, ImageSendMessage(original_content_url=image_link, preview_image_url=image_link))
         except:
