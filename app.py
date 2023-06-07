@@ -68,26 +68,40 @@ def meme_programmer():
     
     return  response['link']
 
-def meme_reddit():
-    url = "https://random-stuff-api.p.rapidapi.com/reddit/RandomMeme"
-    querystring = {"searchType":"hot"}
+# def meme_reddit():
+#     url = "https://random-stuff-api.p.rapidapi.com/reddit/RandomMeme"
+#     querystring = {"searchType":"hot"}
+#     headers = {
+#     	"Authorization": "chrnMsqPx8Ww",
+#     	"X-RapidAPI-Key": "2eb4ae18demsha492b3b31ae7229p11a89ajsn374987e29bb9",
+#     	"X-RapidAPI-Host": "random-stuff-api.p.rapidapi.com"
+#     }
+#     response = requests.get(url, headers=headers, params=querystring)
+
+#     api_return = response.json()
+    
+#     return api_return['thumbnail']
+
+def meme_reddit2(cat):
+    url = 'https://reddit-meme.p.rapidapi.com/memes/' + cat
     headers = {
-    	"Authorization": "chrnMsqPx8Ww",
     	"X-RapidAPI-Key": "2eb4ae18demsha492b3b31ae7229p11a89ajsn374987e29bb9",
-    	"X-RapidAPI-Host": "random-stuff-api.p.rapidapi.com"
+    	"X-RapidAPI-Host": "reddit-meme.p.rapidapi.com"
     }
-    response = requests.get(url, headers=headers, params=querystring)
+    
+    response = requests.get(url, headers=headers)
 
     api_return = response.json()
+    api_return_filter = [i for i in api_return if '.gif' in i['url'] or '.jpeg' in i['url'] or '.png' in i['url'] or '.jpg' in i['url']]
     
-    return api_return['thumbnail']
+    return api_return_filter[0]['url']
 
 
 @handler.add(MessageEvent, message=TextMessage)
 def line_send_image(func, event):
     image_link = func
     try: 
-        line_bot_api.reply_message(event.reply_token, ImageSendMessage(original_content_url=image_link, preview_image_url=image_link, image_size = ImageSendMessage.CONTAIN))
+        line_bot_api.reply_message(event.reply_token, ImageSendMessage(original_content_url=image_link, preview_image_url=image_link))
     except:
         line_bot_api.reply_message(event.reply_token, TextSendMessage(text= image_link + 'Sorry~故障囉！'))
 
@@ -96,10 +110,12 @@ def message_text(event):
     reply_mess = ''
     if '重複' in event.message.text:
         reply_mess = event.message.text.replace('重複','')
+        
 #     elif 'FATZ' in str.upper(event.message.text):
 #         reply_mess = '喔不!!'
 #     elif '噗鼠' in event.message.text:
 #         reply_mess = 'MD'
+
     elif 'chatim掰' in event.message.text:
         if isinstance(event.source, SourceGroup):
             line_bot_api.leave_group(event.source.group_id)
@@ -108,11 +124,12 @@ def message_text(event):
         else:
             line_bot_api.reply_message(
                 event.reply_token, TextSendMessage(text='抱歉，你只能繼續跟我1v1'))
+            
     elif 'programmer' in event.message.text:
         line_send_image(meme_programmer(), event)
             
     elif 'reddit' in event.message.text:
-        line_send_image(meme_reddit(), event)
+        line_send_image(meme_reddit2('trending'), event)
         
     else:
         return
