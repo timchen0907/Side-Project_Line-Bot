@@ -107,7 +107,22 @@ def message_text(event):
     
     elif '本日運勢' in event.message.text:
         reply_mess = random.choice(['大凶', '凶', '末吉', '吉','小吉', '中吉','大吉'])
-       
+
+    elif '功能' in event.message.text:
+        reply_mess = '''
+        1. 重複:
+        說明 : 重複別人說的話
+        2. programmer
+        說明 : 工程師meme
+        3. reddit
+        說明 : reddit meme
+        4. 本日運勢
+        說明 : BJ4
+        5. chatim掰
+        說明 : 請chatim走人
+
+        Have a nice day~
+        '''
     else:
         None
         
