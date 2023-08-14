@@ -50,13 +50,6 @@ def meme_programmer():
     }
     response = requests.get(url, headers=headers)
     api_return = response.json()
-   
-    # res_img = requests.get(api_return[0]['image'])
-    # image = res_img.content
-    # from PIL import Image
-    # import io
-    # stream = io.BytesIO(image)    
-    # image2 = Image.open(stream)
     
     client_id = '911cca3455d90f1'
     client_secret = '6abd7b8943b34f18ba0500836812171a0a687725'
@@ -96,11 +89,6 @@ def message_text(event):
     reply_mess = ''
     if '重複:' in event.message.text:
         reply_mess = event.message.text.replace('重複:','')
-        
-#     elif 'FATZ' in str.upper(event.message.text):
-#         reply_mess = '喔不!!'
-#     elif '噗鼠' in event.message.text:
-#         reply_mess = 'MD'
 
     elif 'chatim掰' in event.message.text:
         if isinstance(event.source, SourceGroup):
@@ -138,3 +126,32 @@ if __name__ == "__main__":
     options = arg_parser.parse_args()
 
     app.run(debug=options.debug, port=options.port)
+
+
+'''
+def imgur_authenticate():
+    # Get client ID and secret from config.py
+    client_id = '911cca3455d90f1'
+    client_secret = '6abd7b8943b34f18ba0500836812171a0a687725'
+    
+    client = imgurpython.ImgurClient(client_id, client_secret)
+
+    # Authorization flow, pin example (see docs for other auth types)
+    authorization_url = client.get_auth_url('pin')
+
+    print("Go to the following URL: {0}".format(authorization_url))
+
+    # Read in the pin, handle Python 2 or 3 here.
+    pin = 'XXXXX'
+    # ... redirect user to `authorization_url`, obtain pin (or code or token) ...
+    credentials = client.authorize(pin, 'pin')
+    client.set_user_auth(credentials['access_token'], credentials['refresh_token'])
+
+    print("Authentication successful! Here are the details:")
+    print("   Access token:  {0}".format(credentials['access_token']))
+    print("   Refresh token: {0}".format(credentials['refresh_token']))
+    # access_token = '2e57b37c2f63e005904008e26fa3374a4af92ac3'
+    # refresh_token = '10808e6a470f8b172a8188d151d11c6a343d2242'
+
+    return client
+'''
