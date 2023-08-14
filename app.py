@@ -3,6 +3,7 @@ import os
 import sys
 import random
 import requests
+from bs4 import BeautifulSoup
 from argparse import ArgumentParser
 from imgurpython import ImgurClient
 from flask import Flask, request, abort
@@ -158,11 +159,11 @@ def message_text(event):
 
     elif '美食:' in event.message.text:
         search = event.message.text.replace('美食:', '')
-        reply_mess = recommend_food(search)
-        # try: 
-        #     reply_mess = recommend_food(search)
-        # except:
-        #     reply_mess = 'ㄅ欠~搜尋關鍵字有誤，請檢查格式或可能沒有該分類'
+        # reply_mess = recommend_food(search)
+        try: 
+            reply_mess = recommend_food(search)
+        except:
+            reply_mess = 'ㄅ欠~搜尋關鍵字有誤，請檢查格式或可能沒有該分類'
             
     elif '功能' in event.message.text:
         reply_mess = '''1. 重複:\n說明 : 重複別人說的話\n\n2. programmer\n說明 : 工程師meme\n\n3. reddit\n說明 : reddit meme\n\n4. 本日運勢\n說明 : BJ4\n\n5. 美食:\n說明 : 請按照以下格式依序填寫(其中一定要有城市，其餘可有可無)\nXX市/XX區/類型/期待均消(數值，不吃範圍)\nex.台北市/中山區/拉麵/300\n\n6. chatim掰\n說明 : 請chatim走人\n\nHave a nice day~
