@@ -75,6 +75,54 @@ def meme_reddit():
     jpg_link = random.choice(api_return)['url']
     return jpg_link
 
+def recommend_food(search):
+    city = ''
+    distinct = ''
+    cat = ''
+    level = ''
+    if  search.split('/')[0] != '':
+        city = search.split('/')[0]+'/'
+    
+    if search.split('/')[1] != '':
+        distinct = search.split('/')[1]+'/'
+        
+    if search.split('/')[2] != '':
+        cat = '/'+search.split('/')[2]
+    
+    if search.split('/')[3] != '':
+        price = int(search.split('/')[3])
+        if price < 150:
+            pb = '1'
+        elif price <= 600:
+            pb = '2'
+        elif price <= 1200:
+            pb = '3'
+        else:
+            pb = '4'
+        level = '&priceLevel=' + pb
+
+    url = 'https://ifoodie.tw/explore/' + city + distinct + 'list' + cat + '?sortby=popluar' + level
+    response = requests.get(url)
+    soup = BeautifulSoup(response.content, "html.parser")
+    
+    cards = soup.find_all(
+           'div', {'class': 'jsx-1156793088 info-rows'}, limit=10)
+    
+    len(cards)
+
+    content = ""
+    for card in cards:
+        title = card.find("a", {"class": "jsx-1156793088 title-text"}).getText()
+
+        stars = card.find("div", {"class": "jsx-2373119553 text"}).getText()
+
+        address = card.find("div", {"class": "jsx-1156793088 address-row"}).getText()
+        
+        description = 'https:/ifoodie.tw' + card.find('a')['href']
+
+        content += f"{title} ({stars}顆星) \n{address} \n{description} \n\n"
+    
+    return content
 
 @handler.add(MessageEvent, message=TextMessage)
 def line_send_image(func, event):
@@ -108,6 +156,13 @@ def message_text(event):
     elif '本日運勢' in event.message.text:
         reply_mess = random.choice(['大凶', '凶', '末吉', '吉','小吉', '中吉','大吉'])
 
+    elif '美食:' in event.message.text:
+        search = event.message.text.replace('美食:', '')
+        try: 
+            reply_mess = recommend_food(search)
+        except:
+            reply_mess = 'ㄅ欠~搜尋關鍵字有誤，請檢查格式或可能沒有該分類'
+            
     elif '功能' in event.message.text:
         reply_mess = '''
         1. 重複:
