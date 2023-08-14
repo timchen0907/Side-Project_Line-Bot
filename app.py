@@ -69,33 +69,18 @@ def meme_programmer():
     
     return  response['link']
 
-# def meme_reddit():
-#     url = "https://random-stuff-api.p.rapidapi.com/reddit/RandomMeme"
-#     querystring = {"searchType":"hot"}
-#     headers = {
-#     	"Authorization": "chrnMsqPx8Ww",
-#     	"X-RapidAPI-Key": "2eb4ae18demsha492b3b31ae7229p11a89ajsn374987e29bb9",
-#     	"X-RapidAPI-Host": "random-stuff-api.p.rapidapi.com"
-#     }
-#     response = requests.get(url, headers=headers, params=querystring)
-
-#     api_return = response.json()
-    
-#     return api_return['thumbnail']
 
 def meme_reddit(cat):
-    url = 'https://reddit-meme.p.rapidapi.com/memes/' + cat
-    headers = {
+    url = "https://memes-from-reddit.p.rapidapi.com/memes"
+    headers =  {
     	"X-RapidAPI-Key": "2eb4ae18demsha492b3b31ae7229p11a89ajsn374987e29bb9",
-    	"X-RapidAPI-Host": "reddit-meme.p.rapidapi.com"
+    	"X-RapidAPI-Host": "memes-from-reddit.p.rapidapi.com"
     }
-    
     response = requests.get(url, headers=headers)
-
-    api_return = response.json()
-    api_return_filter = [i for i in api_return if '.gif' in i['url'] or '.jpeg' in i['url'] or '.png' in i['url'] or '.jpg' in i['url']]
-    
-    return api_return_filter[0]['url']
+    api_return = response.json()['data']
+    api_return = [i for i in api_return if '.jpg' in i['url']]
+    jpg_link = random.choice(api_return)['url']
+    return jpg_link
 
 
 @handler.add(MessageEvent, message=TextMessage)
@@ -130,13 +115,13 @@ def message_text(event):
         line_send_image(meme_programmer(), event)
             
     elif 'reddit' in event.message.text:
-        line_send_image(meme_reddit('trending'), event)
+        line_send_image(meme_reddit(), event)
     
     elif '本日運勢' in event.message.text:
         reply_mess = random.choice(['大凶', '凶', '末吉', '吉','小吉', '中吉','大吉'])
        
     else:
-        return
+        None
         
     line_bot_api.reply_message(
         event.reply_token,
