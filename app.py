@@ -70,7 +70,7 @@ def meme_programmer():
     return  response['link']
 
 
-def meme_reddit(cat):
+def meme_reddit():
     url = "https://memes-from-reddit.p.rapidapi.com/memes"
     headers =  {
     	"X-RapidAPI-Key": "2eb4ae18demsha492b3b31ae7229p11a89ajsn374987e29bb9",
