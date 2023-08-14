@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import os
 import sys
+import random
 import requests
 from argparse import ArgumentParser
 from imgurpython import ImgurClient
@@ -82,7 +83,7 @@ def meme_programmer():
     
 #     return api_return['thumbnail']
 
-def meme_reddit2(cat):
+def meme_reddit(cat):
     url = 'https://reddit-meme.p.rapidapi.com/memes/' + cat
     headers = {
     	"X-RapidAPI-Key": "2eb4ae18demsha492b3b31ae7229p11a89ajsn374987e29bb9",
@@ -108,8 +109,8 @@ def line_send_image(func, event):
 @handler.add(MessageEvent, message=TextMessage)
 def message_text(event):
     reply_mess = ''
-    if '重複' in event.message.text:
-        reply_mess = event.message.text.replace('重複','')
+    if '重複:' in event.message.text:
+        reply_mess = event.message.text.replace('重複:','')
         
 #     elif 'FATZ' in str.upper(event.message.text):
 #         reply_mess = '喔不!!'
@@ -129,8 +130,11 @@ def message_text(event):
         line_send_image(meme_programmer(), event)
             
     elif 'reddit' in event.message.text:
-        line_send_image(meme_reddit2('trending'), event)
-        
+        line_send_image(meme_reddit('trending'), event)
+    
+    elif '本日運勢' in event.message.text:
+        reply_mess = random.choice(['大凶', '凶', '末吉', '吉','小吉', '中吉','大吉'])
+       
     else:
         return
         
