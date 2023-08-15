@@ -141,8 +141,9 @@ def recommend_food(search):
     return content
 
 def get_weather(location):
-    if location == '台北市':
-        location = '臺北市'
+    if '台' in location:
+        location = location.replace('台', '臺')
+                                    
     api_key = os.getenv("WTHR_KEY", None)
     weather_api_url = f"https://opendata.cwb.gov.tw/api/v1/rest/datastore/F-C0032-001?Authorization={api_key}&format=JSON&locationName={location}"
     response = requests.get(weather_api_url)
