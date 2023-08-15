@@ -48,7 +48,7 @@ def meme_programmer():
     url = "https://programming-memes-images.p.rapidapi.com/v1/memes"
     headers = {
         "X-RapidAPI-Key": os.getenv("PRGM_KEY", None),
-        "X-RapidAPI-Host": ""
+        "X-RapidAPI-Host": "programming-memes-images.p.rapidapi.com"
     }
     response = requests.get(url, headers=headers)
     api_return = response.json()
