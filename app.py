@@ -124,12 +124,14 @@ def recommend_food(search):
 
         stars = card.find("div", {"class": "jsx-2373119553 text"}).getText()
 
+        avg = card.find("div", {"class": "jsx-1156793088 avg-price"}).getText()
+
         address = card.find("div", {"class": "jsx-1156793088 address-row"}).getText()
         
         description = 'https:/ifoodie.tw' + card.find('a')['href']
         short_url = shorten_url(description)
 
-        content += f"{title} ({stars}顆星) \n{address} \n{display_text}\nline://app/{short_url}\n\n"
+        content += f"{title} ({stars}顆星{avg}) \n{address} \n{short_url}\n\n"
     
     return content
 
