@@ -24,9 +24,6 @@ def read_sensitive_info(file_path):
     return sensitive_data
     
 sensitive_info = read_sensitive_info("sensitive_info.txt")
- = sensitive_info.get("API_KEY")
-password = sensitive_info.get("PASSWORD")
-
 
 channel_secret = os.getenv('LINE_CHANNEL_SECRET', None)
 channel_access_token = os.getenv('LINE_CHANNEL_ACCESS_TOKEN', None)
@@ -61,16 +58,16 @@ def callback():
 def meme_programmer():
     url = "https://programming-memes-images.p.rapidapi.com/v1/memes"
     headers = {
-        "X-RapidAPI-Key": "2eb4ae18demsha492b3b31ae7229p11a89ajsn374987e29bb9",
-        "X-RapidAPI-Host": "programming-memes-images.p.rapidapi.com"
+        "X-RapidAPI-Key": sensitive_info.get("PRGM_KEY"),
+        "X-RapidAPI-Host": sensitive_info.get("PRGM_HOST")
     }
     response = requests.get(url, headers=headers)
     api_return = response.json()
     
-    client_id = '911cca3455d90f1'
-    client_secret = '6abd7b8943b34f18ba0500836812171a0a687725'
-    access_token = '2e57b37c2f63e005904008e26fa3374a4af92ac3'
-    refresh_token = '10808e6a470f8b172a8188d151d11c6a343d2242'
+    client_id = sensitive_info.get("IMGUR_ID")
+    client_secret = sensitive_info.get("IMGUR_SECRET")
+    access_token = sensitive_info.get("IMGUR_ACCESS")
+    refresh_token = sensitive_info.get("IMGUR_REFRESH")
     
     client = ImgurClient(client_id, client_secret, access_token, refresh_token)
     
@@ -82,8 +79,8 @@ def meme_programmer():
 def meme_reddit():
     url = "https://memes-from-reddit.p.rapidapi.com/memes"
     headers =  {
-    	"X-RapidAPI-Key": "2eb4ae18demsha492b3b31ae7229p11a89ajsn374987e29bb9",
-    	"X-RapidAPI-Host": "memes-from-reddit.p.rapidapi.com"
+    	"X-RapidAPI-Key": sensitive_info.get("REDDIT_KEY"),
+    	"X-RapidAPI-Host": sensitive_info.get("REDDIT_HOST")
     }
     response = requests.get(url, headers=headers)
     api_return = response.json()['data']
