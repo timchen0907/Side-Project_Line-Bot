@@ -1,10 +1,8 @@
-# meme programmer
-"X-RapidAPI-Key": "2eb4ae18demsha492b3b31ae7229p11a89ajsn374987e29bb9",
-"X-RapidAPI-Host": "programming-memes-images.p.rapidapi.com"
-client_id = '911cca3455d90f1'
-client_secret = '6abd7b8943b34f18ba0500836812171a0a687725'
-access_token = '2e57b37c2f63e005904008e26fa3374a4af92ac3'
-refresh_token = '10808e6a470f8b172a8188d151d11c6a343d2242'
-# meme reddit
-"X-RapidAPI-Key": "2eb4ae18demsha492b3b31ae7229p11a89ajsn374987e29bb9",
-"X-RapidAPI-Host": "memes-from-reddit.p.rapidapi.com"
+PRGM_KEY="2eb4ae18demsha492b3b31ae7229p11a89ajsn374987e29bb9",
+PRGM_HOST= "programming-memes-images.p.rapidapi.com"
+IMGUR_ID='911cca3455d90f1'
+IMGUR_SECRET='6abd7b8943b34f18ba0500836812171a0a687725'
+IMGUR_ACCESS='2e57b37c2f63e005904008e26fa3374a4af92ac3'
+IMGUR_REFRESH='10808e6a470f8b172a8188d151d11c6a343d2242'
+REDDIT_KEY="2eb4ae18demsha492b3b31ae7229p11a89ajsn374987e29bb9",
+REDDIT_HOST="memes-from-reddit.p.rapidapi.com"
