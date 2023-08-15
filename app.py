@@ -53,10 +53,10 @@ def meme_programmer():
     response = requests.get(url, headers=headers)
     api_return = response.json()
     
-    client_id = os.getenv("IMGUR_ID")
-    client_secret = os.getenv("IMGUR_SECRET")
-    access_token = os.getenv("IMGUR_ACCESS")
-    refresh_token = os.getenv("IMGUR_REFRESH")
+    client_id = os.getenv("IMGUR_ID", None)
+    client_secret = os.getenv("IMGUR_SECRET", None)
+    access_token = os.getenv("IMGUR_ACCESS", None)
+    refresh_token = os.getenv("IMGUR_REFRESH", None)
     
     client = ImgurClient(client_id, client_secret, access_token, refresh_token)
     
@@ -68,7 +68,7 @@ def meme_programmer():
 def meme_reddit():
     url = "https://memes-from-reddit.p.rapidapi.com/memes"
     headers =  {
-    	"X-RapidAPI-Key": os.getenv("REDDIT_KEY"),
+    	"X-RapidAPI-Key": os.getenv("REDDIT_KEY", None),
     	"X-RapidAPI-Host": "memes-from-reddit.p.rapidapi.com"
     }
     response = requests.get(url, headers=headers)
