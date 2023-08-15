@@ -1,3 +1,6 @@
+# meme programmer
+"X-RapidAPI-Key": "2eb4ae18demsha492b3b31ae7229p11a89ajsn374987e29bb9",
+"X-RapidAPI-Host": "programming-memes-images.p.rapidapi.com"
 client_id = '911cca3455d90f1'
 client_secret = '6abd7b8943b34f18ba0500836812171a0a687725'
 access_token = '2e57b37c2f63e005904008e26fa3374a4af92ac3'
