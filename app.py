@@ -120,15 +120,20 @@ def recommend_food(search):
 
     content = ""
     for card in cards:
-        title = card.find("a", {"class": "jsx-1156793088 title-text"}).getText()
-
-        stars = card.find("div", {"class": "jsx-2373119553 text"}).getText()
-
-        avg = card.find("div", {"class": "jsx-1156793088 avg-price"}).getText()
-
-        address = card.find("div", {"class": "jsx-1156793088 address-row"}).getText()
+        title_element = card.find("a", {"class": "jsx-1156793088 title-text"})
+        title = getattr(title_element, 'getText', lambda: '')()
         
-        description = 'https:/ifoodie.tw' + card.find('a')['href']
+        stars_element = card.find("div", {"class": "jsx-2373119553 text"})
+        stars = getattr(stars_element, 'getText', lambda: '')()
+        
+        avg_element = card.find("div", {"class": "jsx-1156793088 avg-price"})
+        avg = getattr(avg_element, 'getText', lambda: '')()
+        
+        address_element = card.find("div", {"class": "jsx-1156793088 address-row"})
+        address = getattr(address_element, 'getText', lambda: '')()
+        
+        description_element = card.find('a')
+        description = 'https:/ifoodie.tw' + description_element['href'] if description_element else ''
         short_url = shorten_url(description)
 
         content += f"{title} ({stars}顆星{avg}) \n{address} \n{short_url}\n\n"
