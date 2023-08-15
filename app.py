@@ -140,6 +140,30 @@ def recommend_food(search):
     
     return content
 
+def get_weather(location):
+    api_key = os.getenv("WTHR_KEY", None)
+    weather_api_url = f"https://opendata.cwb.gov.tw/api/v1/rest/datastore/F-C0032-001?Authorization={api_key}&format=JSON&locationName={location}"
+    response = requests.get(weather_api_url)
+    data = response.json()
+    
+    try:
+        records = data['records']['location'][0]['weatherElement']
+        tod_des = records[0]['time'][0]['parameter']['parameterName']
+        tod_drop = records[1]['time'][0]['parameter']['parameterName'] +'%'
+        tod_low = records[2]['time'][0]['parameter']['parameterName'] + '度' 
+        tod_high = records[4]['time'][0]['parameter']['parameterName'] + '度'
+        tom_des = records[0]['time'][2]['parameter']['parameterName']
+        tom_drop = records[1]['time'][2]['parameter']['parameterName'] +'%'
+        tom_low = records[2]['time'][2]['parameter']['parameterName'] + '度'
+        tom_high = records[4]['time'][2]['parameter']['parameterName'] + '度'
+        
+        content = f"今天{tod_des}，最低溫:{tod_low}/最高溫:{tod_high}，降雨機率:{tod_drop}\n明日{tom_des}，最低溫:{tom_low}/最高溫:{tom_high}，降雨機率:{tom_drop}"
+    
+    except KeyError:
+        content = '未找到相關天氣數據'
+    
+    return content
+
 @handler.add(MessageEvent, message=TextMessage)
 def line_send_image(func, event):
     image_link = func
@@ -181,6 +205,9 @@ def message_text(event):
         except:
             reply_mess = 'ㄅ欠~搜尋關鍵字有誤，請檢查格式或可能沒有該分類'
             
+    elif '天氣:' in inputs:
+        reply_mess = get_weather(inputs.replace('天氣:', '')
+                                 
     elif 'function' in inputs:
         reply_mess = '''1. 重複:\n說明 : 重複別人說的話\n\n2. programmer\n說明 : 工程師meme\n\n3. reddit\n說明 : reddit meme\n\n4. 本日運勢\n說明 : BJ4\n\n5. 美食:\n說明 : 請按照以下格式依序填寫(其中一定要有城市，其餘可有可無)\nXX市/XX區/類型/期待均消(數值，不吃範圍)\nex.台北市/中山區/拉麵/300\n\n6. chatim掰\n說明 : 請chatim走人\n\nHave a nice day~
         '''
