@@ -3,6 +3,7 @@ import os
 import sys
 import random
 import requests
+import unicodedata
 from bs4 import BeautifulSoup
 from argparse import ArgumentParser
 from imgurpython import ImgurClient
@@ -136,10 +137,11 @@ def line_send_image(func, event):
 @handler.add(MessageEvent, message=TextMessage)
 def message_text(event):
     reply_mess = ''
-    if '重複:' in event.message.text:
-        reply_mess = event.message.text.replace('重複:','')
+    inputs = unicodedata.normalize('NFKC', event.message.text.lower())
+    if '重複:' in inputs :
+        reply_mess = inputs.replace('重複:','')
 
-    elif 'chatim掰' in event.message.text:
+    elif 'chatim掰' in inputs:
         if isinstance(event.source, SourceGroup):
             line_bot_api.leave_group(event.source.group_id)
         elif isinstance(event.source, SourceRoom):
@@ -148,24 +150,24 @@ def message_text(event):
             line_bot_api.reply_message(
                 event.reply_token, TextSendMessage(text='抱歉，你只能繼續跟我1v1'))
             
-    elif 'programmer' in event.message.text:
+    elif 'programmer' in inputs:
         line_send_image(meme_programmer(), event)
             
-    elif 'reddit' in event.message.text:
+    elif 'reddit' in inputs:
         line_send_image(meme_reddit(), event)
     
-    elif '本日運勢' in event.message.text:
+    elif '本日運勢' in inputs:
         reply_mess = random.choice(['大凶', '凶', '末吉', '吉','小吉', '中吉','大吉'])
 
-    elif '美食:' in event.message.text:
-        search = event.message.text.replace('美食:', '')
+    elif '美食:' in inputs:
+        search = inputs.replace('美食:', '')
         # reply_mess = recommend_food(search)
         try: 
             reply_mess = recommend_food(search)
         except:
             reply_mess = 'ㄅ欠~搜尋關鍵字有誤，請檢查格式或可能沒有該分類'
             
-    elif '功能' in event.message.text:
+    elif 'function' in inputs:
         reply_mess = '''1. 重複:\n說明 : 重複別人說的話\n\n2. programmer\n說明 : 工程師meme\n\n3. reddit\n說明 : reddit meme\n\n4. 本日運勢\n說明 : BJ4\n\n5. 美食:\n說明 : 請按照以下格式依序填寫(其中一定要有城市，其餘可有可無)\nXX市/XX區/類型/期待均消(數值，不吃範圍)\nex.台北市/中山區/拉麵/300\n\n6. chatim掰\n說明 : 請chatim走人\n\nHave a nice day~
         '''
     else:
