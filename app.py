@@ -14,17 +14,6 @@ from linebot.models import MessageEvent, TextMessage, TextSendMessage, SourceGro
 
 app = Flask(__name__)
 
-def read_sensitive_info(file_path):
-    sensitive_data = {}
-    with open(file_path, 'r') as file:
-        lines = file.readlines()
-        for line in lines:
-            key, value = line.strip().split('=')
-            sensitive_data[key] = value
-    return sensitive_data
-    
-sensitive_info = read_sensitive_info("sensitive_info.txt")
-
 channel_secret = os.getenv('LINE_CHANNEL_SECRET', None)
 channel_access_token = os.getenv('LINE_CHANNEL_ACCESS_TOKEN', None)
 if channel_secret is None:
@@ -58,16 +47,16 @@ def callback():
 def meme_programmer():
     url = "https://programming-memes-images.p.rapidapi.com/v1/memes"
     headers = {
-        "X-RapidAPI-Key": sensitive_info.get("PRGM_KEY"),
-        "X-RapidAPI-Host": sensitive_info.get("PRGM_HOST")
+        "X-RapidAPI-Key": os.getenv("PRGM_KEY", None),
+        "X-RapidAPI-Host": ""
     }
     response = requests.get(url, headers=headers)
     api_return = response.json()
     
-    client_id = sensitive_info.get("IMGUR_ID")
-    client_secret = sensitive_info.get("IMGUR_SECRET")
-    access_token = sensitive_info.get("IMGUR_ACCESS")
-    refresh_token = sensitive_info.get("IMGUR_REFRESH")
+    client_id = os.getenv("IMGUR_ID")
+    client_secret = os.getenv("IMGUR_SECRET")
+    access_token = os.getenv("IMGUR_ACCESS")
+    refresh_token = os.getenv("IMGUR_REFRESH")
     
     client = ImgurClient(client_id, client_secret, access_token, refresh_token)
     
@@ -79,8 +68,8 @@ def meme_programmer():
 def meme_reddit():
     url = "https://memes-from-reddit.p.rapidapi.com/memes"
     headers =  {
-    	"X-RapidAPI-Key": sensitive_info.get("REDDIT_KEY"),
-    	"X-RapidAPI-Host": sensitive_info.get("REDDIT_HOST")
+    	"X-RapidAPI-Key": os.getenv("REDDIT_KEY"),
+    	"X-RapidAPI-Host": "memes-from-reddit.p.rapidapi.com"
     }
     response = requests.get(url, headers=headers)
     api_return = response.json()['data']
