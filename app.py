@@ -77,6 +77,14 @@ def meme_reddit():
     jpg_link = random.choice(api_return)['url']
     return jpg_link
 
+def shorten_url(url):
+    api_url = f"http://tinyurl.com/api-create.php?url={url}"
+    response = requests.get(api_url)
+    if response.status_code == 200:
+        return response.text
+    else:
+        return url
+
 def recommend_food(search):
     city = ''
     distinct = ''
@@ -119,10 +127,9 @@ def recommend_food(search):
         address = card.find("div", {"class": "jsx-1156793088 address-row"}).getText()
         
         description = 'https:/ifoodie.tw' + card.find('a')['href']
-        display_text = "link"
-        # html_link = f'<a href="{description}">{display_text}</a>'
+        short_url = shorten_url(description)
 
-        content += f"{title} ({stars}顆星) \n{address} \n{display_text}\nline://app/{description}\n\n"
+        content += f"{title} ({stars}顆星) \n{address} \n{display_text}\nline://app/{short_url}\n\n"
     
     return content
 
