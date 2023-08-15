@@ -120,9 +120,9 @@ def recommend_food(search):
         
         description = 'https:/ifoodie.tw' + card.find('a')['href']
         display_text = "link"
-        html_link = f'<a href="{description}">{display_text}</a>'
+        # html_link = f'<a href="{description}">{display_text}</a>'
 
-        content += f"{title} ({stars}顆星) \n{address} \n{html_link} \n\n"
+        content += f"{title} ({stars}顆星) \n{address} \n{display_text}\nline://app/{description}\n\n"
     
     return content
 
