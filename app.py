@@ -141,6 +141,8 @@ def recommend_food(search):
     return content
 
 def get_weather(location):
+    if location == '台北市':
+        location = '臺北市'
     api_key = os.getenv("WTHR_KEY", None)
     weather_api_url = f"https://opendata.cwb.gov.tw/api/v1/rest/datastore/F-C0032-001?Authorization={api_key}&format=JSON&locationName={location}"
     response = requests.get(weather_api_url)
@@ -209,7 +211,7 @@ def message_text(event):
         reply_mess = get_weather(inputs.replace('天氣:', '')
                                  
     elif 'function' in inputs:
-        reply_mess = '''1. 重複:\n說明 : 重複別人說的話\n\n2. programmer\n說明 : 工程師meme\n\n3. reddit\n說明 : reddit meme\n\n4. 本日運勢\n說明 : BJ4\n\n5. 美食:\n說明 : 請按照以下格式依序填寫(其中一定要有城市，其餘可有可無)\nXX市/XX區/類型/期待均消(數值，不吃範圍)\nex.台北市/中山區/拉麵/300\n\n6. chatim掰\n說明 : 請chatim走人\n\nHave a nice day~
+        reply_mess = '''1. 重複:\n說明 : 重複別人說的話\n\n2. programmer\n說明 : 工程師meme\n\n3. reddit\n說明 : reddit meme\n\n4. 本日運勢\n說明 : BJ4\n\n5. 美食:\n說明 : 請按照以下格式依序填寫(其中一定要有城市，其餘可有可無)\nXX市/XX區/類型/期待均消(數值，不吃範圍)\nex.台北市/中山區/拉麵/300\n\n6. 天氣:\n說明 : 取得縣市天氣(請註明XX縣or市)\n\n7. chatim掰\n說明 : 請chatim走人\n\nHave a nice day~
         '''
     else:
         None
