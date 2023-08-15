@@ -14,6 +14,20 @@ from linebot.models import MessageEvent, TextMessage, TextSendMessage, SourceGro
 
 app = Flask(__name__)
 
+def read_sensitive_info(file_path):
+    sensitive_data = {}
+    with open(file_path, 'r') as file:
+        lines = file.readlines()
+        for line in lines:
+            key, value = line.strip().split('=')
+            sensitive_data[key] = value
+    return sensitive_data
+    
+sensitive_info = read_sensitive_info("sensitive_info.txt")
+ = sensitive_info.get("API_KEY")
+password = sensitive_info.get("PASSWORD")
+
+
 channel_secret = os.getenv('LINE_CHANNEL_SECRET', None)
 channel_access_token = os.getenv('LINE_CHANNEL_ACCESS_TOKEN', None)
 if channel_secret is None:
