@@ -207,8 +207,8 @@ if __name__ == "__main__":
 '''
 def imgur_authenticate():
     # Get client ID and secret from config.py
-    client_id = '911cca3455d90f1'
-    client_secret = '6abd7b8943b34f18ba0500836812171a0a687725'
+    client_id = 
+    client_secret = 
     
     client = imgurpython.ImgurClient(client_id, client_secret)
 
@@ -226,8 +226,8 @@ def imgur_authenticate():
     print("Authentication successful! Here are the details:")
     print("   Access token:  {0}".format(credentials['access_token']))
     print("   Refresh token: {0}".format(credentials['refresh_token']))
-    # access_token = '2e57b37c2f63e005904008e26fa3374a4af92ac3'
-    # refresh_token = '10808e6a470f8b172a8188d151d11c6a343d2242'
+    # access_token = 
+    # refresh_token = 
 
     return client
 '''
