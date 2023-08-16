@@ -160,7 +160,7 @@ def get_weather(location):
         tom_low = records[2]['time'][2]['parameter']['parameterName'] + '度'
         tom_high = records[4]['time'][2]['parameter']['parameterName'] + '度'
         
-        content = f"今天{tod_des}\n最低溫:{tod_low}/最高溫:{tod_high}，降雨機率:{tod_drop}\n明日{tom_des}\n最低溫:{tom_low}/最高溫:{tom_high}，降雨機率:{tom_drop}"
+        content = f"今日概況:{tod_des}\n最低溫:{tod_low}/最高溫:{tod_high}\n降雨機率:{tod_drop}\n明日概況:{tom_des}\n最低溫:{tom_low}/最高溫:{tom_high}\n降雨機率:{tom_drop}"
     
     except KeyError:
         content = '未找到相關天氣數據'
