@@ -167,6 +167,39 @@ def get_weather(location):
         content = '未找到相關天氣數據'
     
     return content
+    
+def get_rain_fcst(location):
+    if '台' in location:
+        location = location.replace('台', '臺')
+        
+    json_api = {"宜蘭縣":"F-D0047-001","桃園市":"F-D0047-005","新竹縣":"F-D0047-009","苗栗縣":"F-D0047-013",
+            "彰化縣":"F-D0047-017","南投縣":"F-D0047-021","雲林縣":"F-D0047-025","嘉義縣":"F-D0047-029",
+            "屏東縣":"F-D0047-033","臺東縣":"F-D0047-037","花蓮縣":"F-D0047-041","澎湖縣":"F-D0047-045",
+            "基隆市":"F-D0047-049","新竹市":"F-D0047-053","嘉義市":"F-D0047-057","臺北市":"F-D0047-061",
+            "高雄市":"F-D0047-065","新北市":"F-D0047-069","臺中市":"F-D0047-073","臺南市":"F-D0047-077",
+            "連江縣":"F-D0047-081","金門縣":"F-D0047-085"}
+    
+    try:
+        api_key = os.get_env('WTHR_KEY', None)
+        pat = r'(.*?市|縣)(.*?[區市])'
+        match = re.search(pat, location)
+        if match:
+            city = match.group(1)
+            area = match.group(2)
+            url = f"https://opendata.cwb.gov.tw/api/v1/rest/datastore/{json_api[city]}?Authorization={api_key}&elementName=WeatherDescription"
+            fcst_data = requests.get(url).json()['records']['locations'][0]['location']
+            area_data = [i for i in fcst_data if i['locationName'] == area][0]
+            three = area_data['weatherElement'][0]['time'][0]['elementValue'][0]['value']
+            six = area_data['weatherElement'][0]['time'][1]['elementValue'][0]['value']
+            content = f"{city}{area}\n未來3小時: {three}\n未來6小時: {six}"
+        else:
+            content = '抱歉，未找到相關預報，請檢察關鍵字/格式有誤'
+    
+    except KeyError:
+        content = '抱歉，未找到相關預報，請檢察關鍵字/格式有誤'
+    
+    return content
+
 
 @handler.add(MessageEvent, message=TextMessage)
 def line_send_image(func, event):
@@ -209,11 +242,14 @@ def message_text(event):
         except:
             reply_mess = 'ㄅ欠~搜尋關鍵字有誤，請檢查格式或可能沒有該分類'
             
-    elif '天氣:' in inputs:
-        reply_mess = get_weather(inputs.replace('天氣:', ''))
-                                 
+    elif '市預報:' in inputs:
+        reply_mess = get_weather(inputs.replace('市預報:', ''))
+    
+    elif '區預報:' in inputs:
+        reply_mess = get_rain_fcst(inputs.replace('區預報:', '')
+        
     elif 'function' in inputs:
-        reply_mess = '''1. 重複:\n說明 : 重複別人說的話\n\n2. programmer\n說明 : 工程師meme\n\n3. reddit\n說明 : reddit meme\n\n4. 本日運勢\n說明 : BJ4\n\n5. 美食:\n說明 : 請按照以下格式依序填寫(其中一定要有城市，其餘可有可無)\nXX市/XX區/類型/期待均消(數值，不吃範圍)\nex.台北市/中山區/拉麵/300\n\n6. 天氣:\n說明 : 取得縣市天氣(請註明XX縣or市)\n\n7. chatim掰\n說明 : 請chatim走人\n\nHave a nice day~
+        reply_mess = '''1. 重複:\n說明 : 重複別人說的話\n\n2. programmer\n說明 : 工程師meme\n\n3. reddit\n說明 : reddit meme\n\n4. 本日運勢\n說明 : BJ4\n\n5. 美食:\n說明 : 請按照以下格式依序填寫(其中一定要有城市，其餘可有可無)\nXX市/XX區/類型/期待均消(數值，不吃範圍)\nex.台北市/中山區/拉麵/300\n\n6. 市預報:\n說明 : 取得縣市天氣預報(請註明XX縣or市，不支援區)\n\n7. 區預報:\n說明: 取得地區天氣預報(請註明XX縣(市)XX區(市))\nex.臺北市中山區\n\n8. chatim掰\n說明 : 請chatim走人\n\nHave a nice day~
         '''
     else:
         None
