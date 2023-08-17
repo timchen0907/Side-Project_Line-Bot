@@ -246,7 +246,7 @@ def message_text(event):
         reply_mess = get_weather(inputs.replace('市預報:', ''))
     
     elif '區預報:' in inputs:
-        reply_mess = get_rain_fcst(inputs.replace('區預報:', '')
+        reply_mess = get_rain_fcst(inputs.replace('區預報:', ''))
         
     elif 'function' in inputs:
         reply_mess = '''1. 重複:\n說明 : 重複別人說的話\n\n2. programmer\n說明 : 工程師meme\n\n3. reddit\n說明 : reddit meme\n\n4. 本日運勢\n說明 : BJ4\n\n5. 美食:\n說明 : 請按照以下格式依序填寫(其中一定要有城市，其餘可有可無)\nXX市/XX區/類型/期待均消(數值，不吃範圍)\nex.台北市/中山區/拉麵/300\n\n6. 市預報:\n說明 : 取得縣市天氣預報(請註明XX縣or市，不支援區)\n\n7. 區預報:\n說明: 取得地區天氣預報(請註明XX縣(市)XX區(市))\nex.臺北市中山區\n\n8. chatim掰\n說明 : 請chatim走人\n\nHave a nice day~
