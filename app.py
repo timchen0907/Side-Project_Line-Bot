@@ -72,9 +72,9 @@ def meme_reddit():
     	"X-RapidAPI-Key": os.getenv("PRGM_KEY", None),
     	"X-RapidAPI-Host": "reddit-meme.p.rapidapi.com"
     }
-    response = requests.get(url, headers=headers)
-   
-    return response.json()[-1]['url]
+    response = requests.get(url, headers=headers).json()
+    pic = response[random.randint(0,len(response))]['url']   
+    return pic
 
 def shorten_url(url):
     api_url = f"http://tinyurl.com/api-create.php?url={url}"
