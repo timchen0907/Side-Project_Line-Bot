@@ -67,16 +67,14 @@ def meme_programmer():
 
 
 def meme_reddit():
-    url = "https://memes-from-reddit.p.rapidapi.com/memes"
+    url = "https://reddit-meme.p.rapidapi.com/memes/trending"
     headers =  {
-    	"X-RapidAPI-Key": os.getenv("REDDIT_KEY", None),
-    	"X-RapidAPI-Host": "memes-from-reddit.p.rapidapi.com"
+    	"X-RapidAPI-Key": os.getenv("PRGM_KEY", None),
+    	"X-RapidAPI-Host": "reddit-meme.p.rapidapi.com"
     }
     response = requests.get(url, headers=headers)
-    api_return = response.json()['data']
-    api_return = [i for i in api_return if '.jpg' in i['url']]
-    jpg_link = random.choice(api_return)['url']
-    return jpg_link
+   
+    return response.json()[-1]['url]
 
 def shorten_url(url):
     api_url = f"http://tinyurl.com/api-create.php?url={url}"
