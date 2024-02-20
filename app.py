@@ -144,7 +144,7 @@ def get_weather(location):
         location = location.replace('台', '臺')
                                     
     api_key = os.getenv("WTHR_KEY", None)
-    weather_api_url = f"https://opendata.cwb.gov.tw/api/v1/rest/datastore/F-C0032-001?Authorization={api_key}&format=JSON&locationName={location}"
+    weather_api_url = f"https://opendata.cwa.gov.tw/api/v1/rest/datastore/F-C0032-001?Authorization={api_key}&format=JSON&locationName={location}"
     response = requests.get(weather_api_url)
     data = response.json()
     
@@ -184,7 +184,7 @@ def get_rain_fcst(location):
         if match:
             city = match.group(1)
             area = match.group(2)
-            url = f"https://opendata.cwb.gov.tw/api/v1/rest/datastore/{json_api[city]}?Authorization={api_key}&elementName=WeatherDescription"
+            url = f"https://opendata.cwa.gov.tw/api/v1/rest/datastore/{json_api[city]}?Authorization={api_key}&elementName=WeatherDescription"
             fcst_data = requests.get(url).json()['records']['locations'][0]['location']
             area_data = [i for i in fcst_data if i['locationName'] == area][0]
             three = area_data['weatherElement'][0]['time'][0]['elementValue'][0]['value']
